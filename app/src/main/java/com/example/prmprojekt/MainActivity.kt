@@ -52,7 +52,6 @@ fun NavAppHost(navController: NavHostController) {
                     .show()
             else{
                 DetailFilm(navController = navController, filmId = filmId!!.toInt())
-                Text(text = "$filmId")
             }
         }
     }

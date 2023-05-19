@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -30,15 +31,15 @@ import androidx.navigation.NavController
 @Composable
 fun ListScreen(navController: NavController){
     var films = mutableListOf<Film>(
-        Film("Avatar", 7.toBigDecimal()),
-        Film("Titanic", 9.toBigDecimal()),
-        Film("Harry Potter i Więzień Azkabanu", 6.4.toBigDecimal()),
-        Film("Marry Popins", 8.5.toBigDecimal()),
-        Film("John Wick 4", 7.8.toBigDecimal()),
-        Film("Avatar: Istota Wody", 7.toBigDecimal()),
-        Film("Hellboy", 4.5.toBigDecimal()),
-        Film("Kapitan Ameryka", 7.6.toBigDecimal()),
-        Film("Avengers", 7.9.toBigDecimal())
+        Film("Avatar", 7.toBigDecimal(),1),
+        Film("Titanic", 9.toBigDecimal(), 6),
+        Film("Harry Potter i Więzień Azkabanu", 6.4.toBigDecimal(), 4),
+        Film("Marry Popins", 8.5.toBigDecimal(), 5),
+        Film("John Wick 4", 7.8.toBigDecimal(), 3),
+        Film("Avatar: Istota Wody", 7.toBigDecimal(), 2),
+        Film("Hellboy", 4.5.toBigDecimal(), 7),
+        Film("Kapitan Ameryka", 7.6.toBigDecimal(),8),
+        Film("Avengers", 7.9.toBigDecimal(),9)
     )
     val context = LocalContext.current
     Scaffold(
@@ -63,10 +64,12 @@ fun FilmList(navController: NavController, films: List<Film>) {
     LazyColumn(modifier = Modifier
         .fillMaxHeight(0.85f)
         .padding(10.dp)) {
-        items(films.size) {index ->
+
+        items(films) {
+            val film=it
             Column(modifier = Modifier
                 .clickable {
-                    val route = NavDestination.DetailsFilm.createRoute(index) // to jest raczej ok
+                    val route = NavDestination.DetailsFilm.createRoute(it.id) // to jest raczej ok
                     navController.navigate(route = route)
                 }
                 .fillMaxWidth()
@@ -78,7 +81,7 @@ fun FilmList(navController: NavController, films: List<Film>) {
                         .fillMaxSize()
                         .padding(1.dp)
                 ) {
-                    val film = films.get(index)
+
                     Text(text = "${film.nazwa}", modifier = Modifier.align(Alignment.CenterVertically))
 
                     Row(modifier = Modifier.fillMaxHeight()){
