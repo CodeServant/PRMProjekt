@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PRMProjekt</string>
+    <string name="quantity_sum">ilość</string>
 </resources>
