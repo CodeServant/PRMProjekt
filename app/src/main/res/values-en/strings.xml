@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PRMProjekt</string>
+    <string name="quantity_sum">quantity</string>
+    <string name="film_required_message">film not choosen</string>
+</resources>

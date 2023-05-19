@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">PRMProjekt</string>
+    <string name="app_name" translatable="false">PRMProjekt</string>
     <string name="quantity_sum">ilość</string>
+    <string name="film_required_message">film nie został wybrany</string>
 </resources>

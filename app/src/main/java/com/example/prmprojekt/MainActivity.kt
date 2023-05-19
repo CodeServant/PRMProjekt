@@ -40,6 +40,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun NavAppHost(navController: NavHostController) {
+    val ctx = LocalContext.current
     NavHost(navController = navController, startDestination = NavDestination.List.route) {
         composable(NavDestination.List.route) { ListScreen(navController = navController) }
         composable(NavDestination.DetailsFilm.route) { navBackstackEntry ->
@@ -48,7 +49,7 @@ fun NavAppHost(navController: NavHostController) {
             val filmId = navBackstackEntry.arguments?.getString("filmId")
             val bundle = navBackstackEntry.arguments
             if (filmId == null)
-                Toast.makeText(LocalContext.current, "@filmIdRequiredMessahe", Toast.LENGTH_LONG)
+                Toast.makeText(ctx, ctx.getString(R.string.film_required_message), Toast.LENGTH_LONG)
                     .show()
             else{
                 DetailFilm(navController = navController, filmId = filmId!!.toInt())
