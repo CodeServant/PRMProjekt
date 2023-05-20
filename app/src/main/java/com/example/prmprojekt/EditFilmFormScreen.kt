@@ -15,6 +15,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import java.math.BigDecimal
 
 enum class Intention {
     ADD, EDIT
@@ -24,48 +25,71 @@ enum class Intention {
 fun EditFilmFormScreen(
     navController: NavController,
     intention: Intention /* todo: params to differ the addition, edit and view the entry film */,
-    onAccept: (Film)->Unit
+    onAccept: (Film) -> Unit,
+    film: Film
 ) {
     val ctx = LocalContext.current
-    Column(modifier = Modifier
-        .padding(20.dp)
-        .fillMaxSize(),
-    verticalArrangement = Arrangement.SpaceBetween){
-        var title by remember { mutableStateOf(TextFieldValue("")) }
-        var rating by remember { mutableStateOf(TextFieldValue("")) }
-        var pictureLink by remember { mutableStateOf(TextFieldValue("")) }
+    Column(
+        modifier = Modifier
+            .padding(20.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        /*val startTitle = if (intention==Intention.ADD) "" else
+        val startRating
+        val startPictureLink*/
+
+        var title by remember { mutableStateOf(TextFieldValue(film.nazwa)) }
+        var rating by remember { mutableStateOf(TextFieldValue(film.rating.toString())) }
+        var pictureLink by remember { mutableStateOf(TextFieldValue(film.url)) }
         Column {
 
-            TextField(value = title, onValueChange = {
-                title = it
-            },
+            TextField(
+                value = title, onValueChange = {
+                    title = it
+                },
                 label = { Text(text = ctx.getString(R.string.text_input_title)) },
-                modifier = Modifier.fillMaxWidth().padding(top = 5.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 5.dp)
             )
 
-            TextField(value = rating, onValueChange = {
-                rating = it
-            },
+            TextField(
+                value = rating, onValueChange = {
+                    rating = it
+                },
                 label = { Text(text = ctx.getString(R.string.text_input_rating)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                modifier = Modifier.fillMaxWidth().padding(top = 5.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 5.dp)
             )
 
 
-            TextField(value = pictureLink, onValueChange = {
-                pictureLink = it
-            },
+            TextField(
+                value = pictureLink, onValueChange = {
+                    pictureLink = it
+                },
                 label = { Text(text = ctx.getString(R.string.picture_link_text_input)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri),
-                modifier = Modifier.fillMaxWidth().padding(top = 5.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 5.dp)
             )
         }
 
-        Row (modifier = Modifier.fillMaxWidth()){
-            Button(onClick = { onAccept(Film(title.text, rating.text.toBigDecimal(), 100, pictureLink.text)) }, modifier = Modifier
-                .fillMaxWidth()
-                .padding(3.dp)
-                .weight(1f),
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Button(
+                onClick = {
+                    film.nazwa = title.text
+                    film.rating = rating.text.toBigDecimal()
+                    film.url = pictureLink.text
+                    onAccept(film)
+                    navController.popBackStack()
+                }, modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(3.dp)
+                    .weight(1f),
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color(0xff64cc30)
                 )
@@ -73,13 +97,15 @@ fun EditFilmFormScreen(
             ) {
                 Text(ctx.getString(R.string.button_add))
             }
-            Button(onClick = { navController.popBackStack() }, modifier = Modifier
-                .fillMaxWidth()
-                .padding(3.dp)
-                .weight(1f),
+            Button(
+                onClick = { navController.popBackStack() }, modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(3.dp)
+                    .weight(1f),
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Color.Red
-                )) {
+                )
+            ) {
                 Text(ctx.getString(R.string.button_cancel))
             }
         }

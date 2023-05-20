@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.prmprojekt.ui.theme.PRMProjektTheme
+import kotlin.streams.toList
 
 // todo: dodanie edycji filmu
 // todo: dodawanie do bazy danych
@@ -77,10 +78,12 @@ fun NavAppHost(navController: NavHostController) {
                 DetailFilm(navController = navController, filmId = filmId!!.toInt())
             }
         }
-        composable(NavDestination.Add.route){
+        composable(NavDestination.Add.route) {
+            val maxId = films.stream().map { it.id }.toList().sorted().last()
+
             EditFilmFormScreen(navController, Intention.ADD, {
                 films.add(it)
-            })
+            }, Film(id = maxId))
         }
     }
 }
