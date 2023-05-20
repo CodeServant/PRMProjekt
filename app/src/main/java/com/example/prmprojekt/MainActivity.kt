@@ -43,6 +43,11 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+fun getFilmById(filmy: List<Film>, id: Int): Int {
+    for (f in 0 until filmy.size)
+        if (filmy[f].id == id) return f
+    return -1
+}
 
 @Composable
 fun NavAppHost(navController: NavHostController) {
