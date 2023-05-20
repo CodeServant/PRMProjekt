@@ -23,22 +23,26 @@ enum class Intention {
 @Composable
 fun EditFilmFormScreen(
     navController: NavController,
-    intention: Intention /* todo: params to differ the addition, edit and view the entry film */
+    intention: Intention /* todo: params to differ the addition, edit and view the entry film */,
+    onAccept: (Film)->Unit
 ) {
     val ctx = LocalContext.current
     Column(modifier = Modifier
         .padding(20.dp)
         .fillMaxSize(),
     verticalArrangement = Arrangement.SpaceBetween){
+        var title by remember { mutableStateOf(TextFieldValue("")) }
+        var rating by remember { mutableStateOf(TextFieldValue("")) }
+        var pictureLink by remember { mutableStateOf(TextFieldValue("")) }
         Column {
-            var title by remember { mutableStateOf(TextFieldValue("")) }
+
             TextField(value = title, onValueChange = {
                 title = it
             },
                 label = { Text(text = ctx.getString(R.string.text_input_title)) },
                 modifier = Modifier.fillMaxWidth().padding(top = 5.dp)
             )
-            var rating by remember { mutableStateOf(TextFieldValue("")) }
+
             TextField(value = rating, onValueChange = {
                 rating = it
             },
@@ -47,7 +51,7 @@ fun EditFilmFormScreen(
                 modifier = Modifier.fillMaxWidth().padding(top = 5.dp)
             )
 
-            var pictureLink by remember { mutableStateOf(TextFieldValue("")) }
+
             TextField(value = pictureLink, onValueChange = {
                 pictureLink = it
             },
@@ -58,7 +62,7 @@ fun EditFilmFormScreen(
         }
 
         Row (modifier = Modifier.fillMaxWidth()){
-            Button(onClick = { /*TODO*/ }, modifier = Modifier
+            Button(onClick = { onAccept(Film(title.text, rating.text.toBigDecimal(), 100, pictureLink.text)) }, modifier = Modifier
                 .fillMaxWidth()
                 .padding(3.dp)
                 .weight(1f),

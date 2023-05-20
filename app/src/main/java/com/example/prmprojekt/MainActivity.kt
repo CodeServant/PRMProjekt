@@ -6,6 +6,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -41,8 +43,21 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun NavAppHost(navController: NavHostController) {
     val ctx = LocalContext.current
+    var films = remember {
+        mutableStateListOf<Film>(
+            Film("Avatar", 7.toBigDecimal(),1),
+            Film("Titanic", 9.toBigDecimal(), 6),
+            Film("Harry Potter i Więzień Azkabanu", 6.4.toBigDecimal(), 4),
+            Film("Marry Popins", 8.5.toBigDecimal(), 5),
+            Film("John Wick 4", 7.8.toBigDecimal(), 3),
+            Film("Avatar: Istota Wody", 7.toBigDecimal(), 2),
+            Film("Hellboy", 4.5.toBigDecimal(), 7),
+            Film("Kapitan Ameryka", 7.6.toBigDecimal(),8),
+            Film("Avengers", 7.9.toBigDecimal(),9)
+        )
+    }
     NavHost(navController = navController, startDestination = NavDestination.List.route) {
-        composable(NavDestination.List.route) { ListScreen(navController = navController) }
+        composable(NavDestination.List.route) { ListScreen(navController = navController, films) }
         composable(NavDestination.DetailsFilm.route) { navBackstackEntry ->
             //navBackstackEntry.arguments?.getInt("filmId")!!.toInt()
 
@@ -60,7 +75,9 @@ fun NavAppHost(navController: NavHostController) {
             }
         }
         composable(NavDestination.Add.route){
-            EditFilmFormScreen(navController, Intention.ADD)
+            EditFilmFormScreen(navController, Intention.ADD, {
+                films.add(it)
+            })
         }
     }
 }
