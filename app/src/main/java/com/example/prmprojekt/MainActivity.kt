@@ -15,6 +15,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.prmprojekt.ui.theme.PRMProjektTheme
 
+// todo: dodanie edycji filmu
+// todo: dodawanie do bazy danych
+// todo: poprawienie sprawdzania danych
 sealed class NavDestination(val route: String) {
     object List : NavDestination("list")
     object Add : NavDestination("add")
@@ -45,15 +48,15 @@ fun NavAppHost(navController: NavHostController) {
     val ctx = LocalContext.current
     var films = remember {
         mutableStateListOf<Film>(
-            Film("Avatar", 7.toBigDecimal(),1),
+            Film("Avatar", 7.toBigDecimal(), 1),
             Film("Titanic", 9.toBigDecimal(), 6),
             Film("Harry Potter i Więzień Azkabanu", 6.4.toBigDecimal(), 4),
             Film("Marry Popins", 8.5.toBigDecimal(), 5),
             Film("John Wick 4", 7.8.toBigDecimal(), 3),
             Film("Avatar: Istota Wody", 7.toBigDecimal(), 2),
             Film("Hellboy", 4.5.toBigDecimal(), 7),
-            Film("Kapitan Ameryka", 7.6.toBigDecimal(),8),
-            Film("Avengers", 7.9.toBigDecimal(),9)
+            Film("Kapitan Ameryka", 7.6.toBigDecimal(), 8),
+            Film("Avengers", 7.9.toBigDecimal(), 9)
         )
     }
     NavHost(navController = navController, startDestination = NavDestination.List.route) {
