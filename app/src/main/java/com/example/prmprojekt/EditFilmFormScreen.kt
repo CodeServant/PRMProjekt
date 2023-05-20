@@ -18,7 +18,7 @@ import androidx.navigation.NavController
 import java.math.BigDecimal
 
 enum class Intention {
-    ADD, EDIT
+    ADD, EDIT, DETAILS
 }
 
 @Composable
