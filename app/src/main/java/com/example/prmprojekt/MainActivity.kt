@@ -14,10 +14,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.prmprojekt.ui.theme.PRMProjektTheme
 
 sealed class NavDestination(val route: String) {
-    object List:NavDestination("list")
-    object Add:NavDestination("add")
-    object Edit:NavDestination("edit")
-    object DetailsFilm:NavDestination("detailsfilm/{filmId}") {
+    object List : NavDestination("list")
+    object Add : NavDestination("add")
+    object Edit : NavDestination("edit")
+    object DetailsFilm : NavDestination("detailsfilm/{filmId}") {
         fun createRoute(filmId: Int) = "detailsfilm/$filmId"
     }
 }
@@ -49,11 +49,18 @@ fun NavAppHost(navController: NavHostController) {
             val filmId = navBackstackEntry.arguments?.getString("filmId")
             val bundle = navBackstackEntry.arguments
             if (filmId == null)
-                Toast.makeText(ctx, ctx.getString(R.string.film_required_message), Toast.LENGTH_LONG)
+                Toast.makeText(
+                    ctx,
+                    ctx.getString(R.string.film_required_message),
+                    Toast.LENGTH_LONG
+                )
                     .show()
-            else{
+            else {
                 DetailFilm(navController = navController, filmId = filmId!!.toInt())
             }
+        }
+        composable(NavDestination.Add.route){
+            EditFilmFormScreen(navController, Intention.ADD)
         }
     }
 }

@@ -2,4 +2,9 @@
     <string name="app_name" translatable="false">PRMProjekt</string>
     <string name="quantity_sum">ilość</string>
     <string name="film_required_message">film nie został wybrany</string>
+    <string name="text_input_title">Tytół</string>
+    <string name="text_input_rating">rating</string>
+    <string name="button_add">dodaj</string>
+    <string name="button_cancel">anuluj</string>
+    <string name="picture_link_text_input">link do obrazka</string>
 </resources>

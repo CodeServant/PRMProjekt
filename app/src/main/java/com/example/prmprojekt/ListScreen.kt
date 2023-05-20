@@ -13,12 +13,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,29 +34,37 @@ import androidx.navigation.NavController
 
 @Composable
 fun ListScreen(navController: NavController){
-    var films = mutableListOf<Film>(
-        Film("Avatar", 7.toBigDecimal(),1),
-        Film("Titanic", 9.toBigDecimal(), 6),
-        Film("Harry Potter i Więzień Azkabanu", 6.4.toBigDecimal(), 4),
-        Film("Marry Popins", 8.5.toBigDecimal(), 5),
-        Film("John Wick 4", 7.8.toBigDecimal(), 3),
-        Film("Avatar: Istota Wody", 7.toBigDecimal(), 2),
-        Film("Hellboy", 4.5.toBigDecimal(), 7),
-        Film("Kapitan Ameryka", 7.6.toBigDecimal(),8),
-        Film("Avengers", 7.9.toBigDecimal(),9)
-    )
+    var films = remember {
+        mutableStateListOf<Film>(
+            Film("Avatar", 7.toBigDecimal(),1),
+            Film("Titanic", 9.toBigDecimal(), 6),
+            Film("Harry Potter i Więzień Azkabanu", 6.4.toBigDecimal(), 4),
+            Film("Marry Popins", 8.5.toBigDecimal(), 5),
+            Film("John Wick 4", 7.8.toBigDecimal(), 3),
+            Film("Avatar: Istota Wody", 7.toBigDecimal(), 2),
+            Film("Hellboy", 4.5.toBigDecimal(), 7),
+            Film("Kapitan Ameryka", 7.6.toBigDecimal(),8),
+            Film("Avengers", 7.9.toBigDecimal(),9)
+        )
+    }
     val context = LocalContext.current
     Scaffold(
         floatingActionButton = {
-            FloatButtonList()
+            FloatingActionButton(
+                onClick = { navController.navigate(NavDestination.Add.route) },
+                backgroundColor = Color(0xff64cc30))
+            {
+                Icon(Icons.Default.Add, contentDescription = null)
+            }
         }
-
     ) {
-        Column(modifier = Modifier.padding(it)) {
+        Column(modifier = Modifier.padding(it).fillMaxHeight(), verticalArrangement = Arrangement.SpaceBetween) {
 
             FilmList(films = films, navController= navController)
-            Text(text = "${context.getString(R.string.quantity_sum)} ${films.size}", fontSize = 30.sp)
-
+            Text(text = "${context.getString(R.string.quantity_sum)} ${films.size}",
+                fontSize = 30.sp,
+                modifier = Modifier.padding(15.dp)
+            )
         }
 
     }
