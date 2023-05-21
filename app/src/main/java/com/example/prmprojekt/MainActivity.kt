@@ -23,7 +23,10 @@ import kotlin.streams.toList
 sealed class NavDestination(val route: String) {
     object List : NavDestination("list")
     object Add : NavDestination("add")
-    object Edit : NavDestination("edit")
+    object Edit : NavDestination("edit/{filmId}") {
+        fun createRoute(filmId: Int) = "edit/$filmId"
+    }
+
     object DetailsFilm : NavDestination("detailsfilm/{filmId}") {
         fun createRoute(filmId: Int) = "detailsfilm/$filmId"
     }
