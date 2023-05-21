@@ -78,9 +78,6 @@ fun FilmList(navController: NavController, films: MutableList<Film>) {
         items(films, key = { film -> film.id }) { film ->
             Column(
                 modifier = Modifier
-                    .clickable {
-
-                    }
                     .fillMaxWidth()
                     .height(80.dp)
                     .pointerInput(Unit) {
@@ -132,7 +129,7 @@ fun FilmList(navController: NavController, films: MutableList<Film>) {
     if (visibleAlertDialog)
         AlertDialog(
             onDismissRequest = { visibleAlertDialog = false },
-            title = { Text(text = ctx.getString(R.string.delete_confirmation)) },
+            title = { Text(text = ctx.getString(R.string.delete_confirmation) +" "+films[filmSelected].nazwa) },
             confirmButton = {
                 Button(onClick = {
 
