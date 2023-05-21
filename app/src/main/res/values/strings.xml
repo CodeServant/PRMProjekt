@@ -7,4 +7,6 @@
     <string name="button_add">dodaj</string>
     <string name="button_cancel">anuluj</string>
     <string name="picture_link_text_input">link do obrazka</string>
+    <string name="button_edit">edytuj</string>
+    <string name="button_change">zmień</string>
 </resources>

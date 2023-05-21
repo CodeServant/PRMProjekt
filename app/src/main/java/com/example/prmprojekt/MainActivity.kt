@@ -72,18 +72,18 @@ fun NavAppHost(navController: NavHostController) {
     NavHost(navController = navController, startDestination = NavDestination.List.route) {
         composable(NavDestination.List.route) { ListScreen(navController = navController, films) }
         composable(NavDestination.DetailsFilm.route) { navBackstackEntry ->
-            //navBackstackEntry.arguments?.getInt("filmId")!!.toInt()
-
             val filmId = navBackstackEntry.arguments?.getString("filmId")
-            val bundle = navBackstackEntry.arguments
-            if (filmId == null)
-                Toast.makeText(
-                    ctx,
-                    ctx.getString(R.string.film_required_message),
-                    Toast.LENGTH_LONG
+            FilmChoosen(filmId = filmId, navController = navController) {
+                EditFilmFormScreen(
+                    navController = navController,
+                    intention = Intention.DETAILS,
+                    onAccept = {
+                        navController.navigate(NavDestination.Edit.createRoute(it.id))
+                               /* todo przeniesienie to apletu edycji */
+                    },
+                    film = films[films.getFilmById(it)]
                 )
-                    .show()
-            else {
+
                 DetailFilm(navController = navController, filmId = filmId!!.toInt())
             }
         }
@@ -92,7 +92,46 @@ fun NavAppHost(navController: NavHostController) {
 
             EditFilmFormScreen(navController, Intention.ADD, {
                 films.add(it)
+                navController.popBackStack()
             }, Film(id = maxId))
         }
+        composable(NavDestination.Edit.route) {
+            val filmId = it.arguments?.getString("filmId")
+            FilmChoosen(filmId = filmId, navController = navController) {
+                EditFilmFormScreen(
+                    navController = navController,
+                    intention = Intention.EDIT,
+                    onAccept = {film ->
+                        val index = films.getFilmById(it)
+                        films[index]=film
+                        navController.popBackStack()
+                    },
+                    film = films[films.getFilmById(it)]
+                )
+            }
+        }
+    }
+}
+
+/**
+ * If filmId is null then print Toast to user that not specified.
+ * content return the filmId not an index in the list
+ */
+@Composable
+fun FilmChoosen(
+    filmId: String?,
+    navController: NavHostController,
+    content: @Composable (Int) -> Unit
+) {
+    val ctx = navController.context
+    if (filmId == null)
+        Toast.makeText(
+            ctx,
+            ctx.getString(R.string.film_required_message),
+            Toast.LENGTH_LONG
+        )
+            .show()
+    else {
+        content(filmId.toInt())
     }
 }

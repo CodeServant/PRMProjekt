@@ -29,6 +29,12 @@ fun EditFilmFormScreen(
     film: Film
 ) {
     val ctx = LocalContext.current
+    val enabledTextField = if (intention == Intention.DETAILS) false else true
+    val acceptButtonText = when (intention){
+        Intention.ADD -> ctx.getString(R.string.button_add)
+        Intention.EDIT -> ctx.getString(R.string.button_change)
+        Intention.DETAILS -> ctx.getString(R.string.button_edit)
+    }
     Column(
         modifier = Modifier
             .padding(20.dp)
@@ -51,7 +57,8 @@ fun EditFilmFormScreen(
                 label = { Text(text = ctx.getString(R.string.text_input_title)) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 5.dp)
+                    .padding(top = 5.dp),
+                enabled = enabledTextField
             )
 
             TextField(
@@ -62,7 +69,8 @@ fun EditFilmFormScreen(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 5.dp)
+                    .padding(top = 5.dp),
+                enabled = enabledTextField
             )
 
 
@@ -74,7 +82,8 @@ fun EditFilmFormScreen(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 5.dp)
+                    .padding(top = 5.dp),
+                enabled = enabledTextField
             )
         }
 
@@ -85,7 +94,6 @@ fun EditFilmFormScreen(
                     film.rating = rating.text.toBigDecimal()
                     film.url = pictureLink.text
                     onAccept(film)
-                    navController.popBackStack()
                 }, modifier = Modifier
                     .fillMaxWidth()
                     .padding(3.dp)
@@ -95,21 +103,29 @@ fun EditFilmFormScreen(
                 )
 
             ) {
-                Text(ctx.getString(R.string.button_add))
+                Text(acceptButtonText)
             }
-            Button(
-                onClick = { navController.popBackStack() }, modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(3.dp)
-                    .weight(1f),
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Color.Red
-                )
-            ) {
-                Text(ctx.getString(R.string.button_cancel))
-            }
+            if (intention != Intention.DETAILS)
+                Button(
+                    onClick = { navController.popBackStack() }, modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(3.dp)
+                        .weight(1f),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color.Red
+                    )
+                ) {
+                    Text(ctx.getString(R.string.button_cancel))
+                }
+
+
         }
 
     }
+
+}
+
+@Composable
+fun AcceptCancelButtons() {
 
 }
