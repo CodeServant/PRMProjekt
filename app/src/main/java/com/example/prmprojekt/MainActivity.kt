@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
@@ -133,12 +132,12 @@ fun NavAppHost(navController: NavHostController) {
             }
         }
         composable(NavDestination.Add.route) {
-            val maxId = films.stream().map { it.id }.toList().sorted().last()
+            val maxId = films.stream().map { it.id }.toList().max()
 
             EditFilmFormScreen(navController, Intention.ADD, {
                 films.add(it)
                 navController.popBackStack()
-            }, Film(id = maxId))
+            }, Film(id = maxId+1))
         }
         composable(NavDestination.Edit.route) {
             val filmId = it.arguments?.getString("filmId")
