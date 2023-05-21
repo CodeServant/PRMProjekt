@@ -10,4 +10,6 @@
     <string name="picture_link_text_input">link to a picture</string>
     <string name="button_edit">edit</string>
     <string name="button_change">change</string>
+    <string name="button_delete">delete</string>
+    <string name="delete_confirmation">Do you want to delete?</string>
 </resources>
