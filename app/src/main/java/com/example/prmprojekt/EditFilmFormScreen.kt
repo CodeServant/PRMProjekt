@@ -1,13 +1,9 @@
 package com.example.prmprojekt
 
-import android.content.res.Resources.Theme
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -15,7 +11,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import java.math.BigDecimal
 
 enum class Intention {
     ADD, EDIT, DETAILS
@@ -24,7 +19,7 @@ enum class Intention {
 @Composable
 fun EditFilmFormScreen(
     navController: NavController,
-    intention: Intention /* todo: params to differ the addition, edit and view the entry film */,
+    intention: Intention,
     onAccept: (Film) -> Unit,
     film: Film
 ) {
@@ -41,10 +36,6 @@ fun EditFilmFormScreen(
             .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        /*val startTitle = if (intention==Intention.ADD) "" else
-        val startRating
-        val startPictureLink*/
-
         var title by remember { mutableStateOf(TextFieldValue(film.nazwa)) }
         var rating by remember { mutableStateOf(TextFieldValue(film.rating.toString())) }
         var pictureLink by remember { mutableStateOf(TextFieldValue(film.url)) }
