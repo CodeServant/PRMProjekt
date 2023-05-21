@@ -47,9 +47,9 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-fun getFilmById(filmy: List<Film>, id: Int): Int {
-    for (f in 0 until filmy.size)
-        if (filmy[f].id == id) return f
+fun List<Film>.getFilmById(id: Int): Int {
+    for (f in 0 until this.size)
+        if (this[f].id == id) return f
     return -1
 }
 
