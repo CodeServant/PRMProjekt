@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -98,7 +99,9 @@ fun FilmList(navController: NavController, films: MutableList<Film>) {
                 ) {
                     AsyncImage(
                         model = film.url,
-                        contentDescription = "poster"
+                        contentDescription = "poster",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.aspectRatio(0.70f, true)
                     )
 
                     Text(
@@ -116,14 +119,11 @@ fun FilmList(navController: NavController, films: MutableList<Film>) {
 
                         )
                     }
-
                 }
 
 
             }
         }
-
-
     }
     if (visibleAlertDialog)
         AlertDialog(
