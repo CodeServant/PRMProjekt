@@ -15,10 +15,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.prmprojekt.ui.theme.PRMProjektTheme
 import kotlin.streams.toList
-// todo: pobieranie danych o obrazach z internetu
+
 // todo: sortowanie danych
 // todo: dodawanie do bazy danych
 // todo: sprawdzanie danych które podaje/zmienia użytkownik
+// todo: sprawdzenie czy link żeczywiście prowadzą do obrazów
 sealed class NavDestination(val route: String) {
     object List : NavDestination("list")
     object Add : NavDestination("add")
@@ -57,15 +58,60 @@ fun NavAppHost(navController: NavHostController) {
     val ctx = LocalContext.current
     var films = remember {
         mutableStateListOf<Film>(
-            Film("Avatar", 7.toBigDecimal(), 1),
-            Film("Titanic", 9.toBigDecimal(), 6),
-            Film("Harry Potter i Więzień Azkabanu", 6.4.toBigDecimal(), 4),
-            Film("Marry Popins", 8.5.toBigDecimal(), 5),
-            Film("John Wick 4", 7.8.toBigDecimal(), 3),
-            Film("Avatar: Istota Wody", 7.toBigDecimal(), 2),
-            Film("Hellboy", 4.5.toBigDecimal(), 7),
-            Film("Kapitan Ameryka", 7.6.toBigDecimal(), 8),
-            Film("Avengers", 7.9.toBigDecimal(), 9)
+            Film(
+                "Avatar",
+                7.toBigDecimal(),
+                1,
+                url = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/6DfNtptjkIrevq4mDAB0XDXT0NO.jpg"
+            ),
+            Film(
+                "Titanic",
+                9.toBigDecimal(),
+                6,
+                "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg"
+            ),
+            Film(
+                "Harry Potter i Więzień Azkabanu",
+                6.4.toBigDecimal(),
+                4,
+                "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/sR7uC42HHb7qj1ndLBgBXii0quX.jpg"
+            ),
+            Film(
+                "Marry Popins",
+                8.5.toBigDecimal(),
+                5,
+                "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/uTVGku4LibMGyKgQvjBtv3OYfAX.jpg"
+            ),
+            Film(
+                "John Wick 4",
+                7.8.toBigDecimal(),
+                3,
+                "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg"
+            ),
+            Film(
+                "Avatar: Istota Wody",
+                7.toBigDecimal(),
+                2,
+                "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/Ajs7ZyNjGMHIiATMygxMkOFeTko.jpg"
+            ),
+            Film(
+                "Hellboy",
+                4.5.toBigDecimal(),
+                7,
+                "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/hjblR6bPZR0PvFwztHcEBCjYf7d.jpg"
+            ),
+            Film(
+                "Kapitan Ameryka",
+                7.6.toBigDecimal(),
+                8,
+                "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/lvHr3y3g63hrpXI3pSCLF62tRSZ.jpg"
+            ),
+            Film(
+                "Avengers",
+                7.9.toBigDecimal(),
+                9,
+                "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg"
+            )
         )
     }
     NavHost(navController = navController, startDestination = NavDestination.List.route) {
@@ -78,7 +124,7 @@ fun NavAppHost(navController: NavHostController) {
                     intention = Intention.DETAILS,
                     onAccept = {
                         navController.navigate(NavDestination.Edit.createRoute(it.id))
-                               /* todo przeniesienie to apletu edycji */
+                        /* todo przeniesienie to apletu edycji */
                     },
                     film = films[films.getFilmById(it)]
                 )
@@ -100,9 +146,9 @@ fun NavAppHost(navController: NavHostController) {
                 EditFilmFormScreen(
                     navController = navController,
                     intention = Intention.EDIT,
-                    onAccept = {film ->
+                    onAccept = { film ->
                         val index = films.getFilmById(it)
-                        films[index]=film
+                        films[index] = film
                         navController.popBackStack()
                     },
                     film = films[films.getFilmById(it)]
