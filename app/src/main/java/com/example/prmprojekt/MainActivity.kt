@@ -15,10 +15,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.prmprojekt.ui.theme.PRMProjektTheme
 import kotlin.streams.toList
-
-// todo: dodanie edycji filmu
+// todo: pobieranie danych o obrazach z internetu
+// todo: sortowanie danych
+// todo: dłuższe przytrzymanie, alert z usunięciem
 // todo: dodawanie do bazy danych
-// todo: poprawienie sprawdzania danych
+// todo: sprawdzanie danych które podaje/zmienia użytkownik
 sealed class NavDestination(val route: String) {
     object List : NavDestination("list")
     object Add : NavDestination("add")
