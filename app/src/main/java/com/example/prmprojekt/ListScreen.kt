@@ -129,7 +129,7 @@ fun FilmList(navController: NavController, films: MutableList<Film>) {
     if (visibleAlertDialog)
         AlertDialog(
             onDismissRequest = { visibleAlertDialog = false },
-            title = { Text(text = ctx.getString(R.string.delete_confirmation) +" "+films[filmSelected].nazwa) },
+            title = { Text(text = ctx.getString(R.string.delete_confirmation)) },
             confirmButton = {
                 Button(onClick = {
 
