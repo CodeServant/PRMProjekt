@@ -17,7 +17,6 @@ import com.example.prmprojekt.ui.theme.PRMProjektTheme
 import kotlin.streams.toList
 // todo: pobieranie danych o obrazach z internetu
 // todo: sortowanie danych
-// todo: dłuższe przytrzymanie, alert z usunięciem
 // todo: dodawanie do bazy danych
 // todo: sprawdzanie danych które podaje/zmienia użytkownik
 sealed class NavDestination(val route: String) {
