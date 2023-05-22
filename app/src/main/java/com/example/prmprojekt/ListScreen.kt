@@ -1,13 +1,15 @@
 package com.example.prmprojekt
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,13 +22,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import kotlinx.coroutines.launch
 
 
 @Composable
 fun ListScreen(navController: NavController, films: MutableList<Film>) {
 
     val context = LocalContext.current
+    var isSortedSelected by remember {
+        mutableStateOf(false)
+    }
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -36,6 +40,25 @@ fun ListScreen(navController: NavController, films: MutableList<Film>) {
             {
                 Icon(Icons.Default.Add, contentDescription = null)
             }
+
+
+        },
+        topBar = {
+            TopAppBar(
+                title = { Text(text = context.getString(R.string.list_top_app_title)) },
+                actions = {
+                    IconButton(onClick = { isSortedSelected = !isSortedSelected }) {
+                        Icon(
+                            Icons.Default.KeyboardArrowDown,
+                            contentDescription = null,
+                            modifier = Modifier.border(if(isSortedSelected) 2.dp else -1.dp, Color.Red, CircleShape),
+
+
+                        )
+                    }
+                }
+            )
+
         }
     ) {
         Column(
@@ -45,7 +68,7 @@ fun ListScreen(navController: NavController, films: MutableList<Film>) {
             verticalArrangement = Arrangement.SpaceBetween
         ) {
 
-            FilmList(films = films, navController = navController)
+            FilmList(films = films, navController = navController, isSortedSelected = isSortedSelected)
             Text(
                 text = "${context.getString(R.string.quantity_sum)} ${films.size}",
                 fontSize = 30.sp,
@@ -56,8 +79,9 @@ fun ListScreen(navController: NavController, films: MutableList<Film>) {
     }
 }
 
+
 @Composable
-fun FilmList(navController: NavController, films: MutableList<Film>) {
+fun FilmList(navController: NavController, films: MutableList<Film>, isSortedSelected: Boolean) {
     val ctx = LocalContext.current
     var visibleAlertDialog by remember {
         mutableStateOf(false)
@@ -70,8 +94,8 @@ fun FilmList(navController: NavController, films: MutableList<Film>) {
             .fillMaxHeight(0.85f)
             .padding(10.dp)
     ) {
-
-        items(films, key = { film -> film.id }) { film ->
+        items(if(isSortedSelected) films.sortedBy { it.nazwa } else films,
+            key = { film -> film.id }) { film ->
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

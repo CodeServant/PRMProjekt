@@ -11,4 +11,5 @@
     <string name="button_change">zmień</string>
     <string name="button_delete">usuń</string>
     <string name="delete_confirmation">Czy chcesz usunąć?</string>
+    <string name="list_top_app_title">Lista filmów</string>
 </resources>
