@@ -15,8 +15,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.prmprojekt.ui.theme.PRMProjektTheme
 import kotlin.streams.toList
 
-// todo: sortowanie danych
 // todo: dodawanie do bazy danych
+// todo: udostępnienie danych przeez SMS lub mail
 // todo: sprawdzanie danych które podaje/zmienia użytkownik
 // todo: sprawdzenie czy link żeczywiście prowadzą do obrazów
 sealed class NavDestination(val route: String) {
