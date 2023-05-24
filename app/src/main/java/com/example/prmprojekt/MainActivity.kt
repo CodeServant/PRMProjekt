@@ -132,7 +132,8 @@ fun NavAppHost(navController: NavHostController) {
             }
         }
         composable(NavDestination.Add.route) {
-            val maxId = films.stream().map { it.id }.toList().max()
+            val maxId = films.stream().map { it.id }.toList().maxOrNull() ?: 1
+
 
             EditFilmFormScreen(navController, Intention.ADD, {
                 films.add(it)
