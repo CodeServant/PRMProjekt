@@ -18,7 +18,7 @@ import kotlin.streams.toList
 // todo: dodawanie do bazy danych
 // todo: udostępnienie danych przeez SMS lub mail
 // todo: sprawdzanie danych które podaje/zmienia użytkownik
-// todo: sprawdzenie czy link żeczywiście prowadzą do obrazów
+// todo: sprawdzenie czy link żeczywiście prowadzą do obrazów, albo ustawienie jakiegoś domyślengo
 sealed class NavDestination(val route: String) {
     object List : NavDestination("list")
     object Add : NavDestination("add")
