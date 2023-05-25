@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-fun List<Film>.getFilmById(id: Int): Int {
+internal fun List<Film>.getFilmById(id: Int): Int {
     for (f in 0 until this.size)
         if (this[f].id == id) return f
     return -1
@@ -57,61 +57,9 @@ fun NavAppHost(navController: NavHostController) {
     val ctx = LocalContext.current
     var films = remember {
         mutableStateListOf<Film>(
-            Film(
-                "Avatar",
-                7.toBigDecimal(),
-                1,
-                url = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/6DfNtptjkIrevq4mDAB0XDXT0NO.jpg"
-            ),
-            Film(
-                "Titanic",
-                9.toBigDecimal(),
-                6,
-                "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg"
-            ),
-            Film(
-                "Harry Potter i Więzień Azkabanu",
-                6.4.toBigDecimal(),
-                4,
-                "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/sR7uC42HHb7qj1ndLBgBXii0quX.jpg"
-            ),
-            Film(
-                "Marry Popins",
-                8.5.toBigDecimal(),
-                5,
-                "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/uTVGku4LibMGyKgQvjBtv3OYfAX.jpg"
-            ),
-            Film(
-                "John Wick 4",
-                7.8.toBigDecimal(),
-                3,
-                "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg"
-            ),
-            Film(
-                "Avatar: Istota Wody",
-                7.toBigDecimal(),
-                2,
-                "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/Ajs7ZyNjGMHIiATMygxMkOFeTko.jpg"
-            ),
-            Film(
-                "Hellboy",
-                4.5.toBigDecimal(),
-                7,
-                "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/hjblR6bPZR0PvFwztHcEBCjYf7d.jpg"
-            ),
-            Film(
-                "Kapitan Ameryka",
-                7.6.toBigDecimal(),
-                8,
-                "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/lvHr3y3g63hrpXI3pSCLF62tRSZ.jpg"
-            ),
-            Film(
-                "Avengers",
-                7.9.toBigDecimal(),
-                9,
-                "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg"
-            )
+            *dummyfilmArray()
         )
+
     }
     NavHost(navController = navController, startDestination = NavDestination.List.route) {
         composable(NavDestination.List.route) { ListScreen(navController = navController, films) }
@@ -138,7 +86,7 @@ fun NavAppHost(navController: NavHostController) {
             EditFilmFormScreen(navController, Intention.ADD, {
                 films.add(it)
                 navController.popBackStack()
-            }, Film(id = maxId+1))
+            }, Film(id = maxId + 1))
         }
         composable(NavDestination.Edit.route) {
             val filmId = it.arguments?.getString("filmId")
@@ -156,6 +104,67 @@ fun NavAppHost(navController: NavHostController) {
             }
         }
     }
+}
+
+fun dummyfilmArray(): Array<Film> {
+
+    val list = mutableListOf<Film>(
+        Film(
+            "Avatar",
+            7.toBigDecimal(),
+            1,
+            url = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/6DfNtptjkIrevq4mDAB0XDXT0NO.jpg"
+        ),
+        Film(
+            "Titanic",
+            9.toBigDecimal(),
+            6,
+            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg"
+        ),
+        Film(
+            "Harry Potter i Więzień Azkabanu",
+            6.4.toBigDecimal(),
+            4,
+            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/sR7uC42HHb7qj1ndLBgBXii0quX.jpg"
+        ),
+        Film(
+            "Marry Popins",
+            8.5.toBigDecimal(),
+            5,
+            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/uTVGku4LibMGyKgQvjBtv3OYfAX.jpg"
+        ),
+        Film(
+            "John Wick 4",
+            7.8.toBigDecimal(),
+            3,
+            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg"
+        ),
+        Film(
+            "Avatar: Istota Wody",
+            7.toBigDecimal(),
+            2,
+            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/Ajs7ZyNjGMHIiATMygxMkOFeTko.jpg"
+        ),
+        Film(
+            "Hellboy",
+            4.5.toBigDecimal(),
+            7,
+            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/hjblR6bPZR0PvFwztHcEBCjYf7d.jpg"
+        ),
+        Film(
+            "Kapitan Ameryka",
+            7.6.toBigDecimal(),
+            8,
+            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/lvHr3y3g63hrpXI3pSCLF62tRSZ.jpg"
+        ),
+        Film(
+            "Avengers",
+            7.9.toBigDecimal(),
+            9,
+            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg"
+        )
+    )
+    return list.toTypedArray()
 }
 
 /**
