@@ -1,12 +1,11 @@
 package com.example.prmprojekt.data
 
-import android.telephony.ClosedSubscriberGroupInfo
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FilmDAO {
@@ -20,5 +19,5 @@ interface FilmDAO {
     suspend fun deleteFilm(film: FilmEntity)
 
     @Query("SELECT * FROM FilmEntity")
-    fun getAllFilms():LiveData<List<FilmEntity>>
+    fun getAllFilms():Flow<List<FilmEntity>>
 }
