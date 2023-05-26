@@ -13,4 +13,6 @@
     <string name="button_delete">delete</string>
     <string name="delete_confirmation">Do you want to delete?</string>
     <string name="list_top_app_title">Film list</string>
+    <string name="button_share">share</string>
+    <string name="sms_share_button">sent with SMS</string>
 </resources>
