@@ -16,10 +16,6 @@ import com.example.prmprojekt.ui.theme.PRMProjektTheme
 import kotlin.streams.toList
 
 // todo: dodawanie do bazy danych
-// todo: downgrade gradle
-// todo add ktx room dependiency https://mvnrepository.com/artifact/androidx.room/room-ktx?repo=google
-// todo add typeConvertest to databse
-// todo: udostępnienie danych przeez SMS lub mail
 // todo: sprawdzanie danych które podaje/zmienia użytkownik
 // todo: sprawdzenie czy link żeczywiście prowadzą do obrazów, albo ustawienie jakiegoś domyślengo
 sealed class NavDestination(val route: String) {
