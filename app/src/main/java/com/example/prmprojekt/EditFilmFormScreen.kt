@@ -1,8 +1,12 @@
 package com.example.prmprojekt
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -108,7 +112,29 @@ fun EditFilmFormScreen(
                 ) {
                     Text(ctx.getString(R.string.button_cancel))
                 }
+            else {
+                Button(
+                    onClick = {
+                        var intent = Intent(Intent.ACTION_VIEW, Uri.fromParts("sms","",null))
 
+
+                        intent.putExtra("sms_body", "${ctx.getString(R.string.text_input_title)}: ${film.nazwa}, ${ctx.getString(R.string.text_input_rating)}: ${film.rating}")
+                        ctx.startActivity(intent)
+                    }, modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(3.dp)
+                        .weight(1f),
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color.Cyan
+                    )
+                ) {
+                    Row() {
+                        Text(ctx.getString(R.string.button_share))
+                        Icon(Icons.Default.Share, contentDescription = null)
+                    }
+
+                }
+            }
 
         }
 
