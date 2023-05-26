@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
 @Database(entities = [FilmEntity::class], version = 1)
+@TypeConverters(BigDecimalTypeConverter::class)
 abstract class FilmDatabase : RoomDatabase() {
     abstract val filmDAO: FilmDAO
 
