@@ -25,7 +25,7 @@ fun EditFilmFormScreen(
 ) {
     val ctx = LocalContext.current
     val enabledTextField = if (intention == Intention.DETAILS) false else true
-    val acceptButtonText = when (intention){
+    val acceptButtonText = when (intention) {
         Intention.ADD -> ctx.getString(R.string.button_add)
         Intention.EDIT -> ctx.getString(R.string.button_change)
         Intention.DETAILS -> ctx.getString(R.string.button_edit)
