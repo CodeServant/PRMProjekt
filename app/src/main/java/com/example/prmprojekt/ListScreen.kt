@@ -22,6 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.prmprojekt.data.FilmDatabase
+import com.example.prmprojekt.data.FilmRepository
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -51,10 +54,12 @@ fun ListScreen(navController: NavController, films: MutableList<Film>) {
                         Icon(
                             Icons.Default.KeyboardArrowDown,
                             contentDescription = null,
-                            modifier = Modifier.border(if(isSortedSelected) 2.dp else -1.dp, Color.Red, CircleShape),
-
-
-                        )
+                            modifier = Modifier.border(
+                                if (isSortedSelected) 2.dp else -1.dp,
+                                Color.Red,
+                                CircleShape
+                            ),
+                            )
                     }
                 }
             )
@@ -68,7 +73,11 @@ fun ListScreen(navController: NavController, films: MutableList<Film>) {
             verticalArrangement = Arrangement.SpaceBetween
         ) {
 
-            FilmList(films = films, navController = navController, isSortedSelected = isSortedSelected)
+            FilmList(
+                films = films,
+                navController = navController,
+                isSortedSelected = isSortedSelected
+            )
             Text(
                 text = "${context.getString(R.string.quantity_sum)} ${films.size}",
                 fontSize = 30.sp,
@@ -83,6 +92,9 @@ fun ListScreen(navController: NavController, films: MutableList<Film>) {
 @Composable
 fun FilmList(navController: NavController, films: MutableList<Film>, isSortedSelected: Boolean) {
     val ctx = LocalContext.current
+    val dao = FilmDatabase.getintance(ctx).filmDAO
+    val repo = FilmRepository(dao)
+    var corScope = rememberCoroutineScope()
     var visibleAlertDialog by remember {
         mutableStateOf(false)
     }
@@ -94,7 +106,7 @@ fun FilmList(navController: NavController, films: MutableList<Film>, isSortedSel
             .fillMaxHeight(0.85f)
             .padding(10.dp)
     ) {
-        items(if(isSortedSelected) films.sortedBy { it.nazwa } else films,
+        items(if (isSortedSelected) films.sortedBy { it.nazwa } else films,
             key = { film -> film.id }) { film ->
             Column(
                 modifier = Modifier
@@ -151,13 +163,16 @@ fun FilmList(navController: NavController, films: MutableList<Film>, isSortedSel
     }
     if (visibleAlertDialog)
         AlertDialog(
-            onDismissRequest = { visibleAlertDialog = false },
+            onDismissRequest = {
+                visibleAlertDialog = false
+            },
             title = { Text(text = ctx.getString(R.string.delete_confirmation)) },
             confirmButton = {
                 Button(onClick = {
-
                     val index = filmSelected
-                    films.removeAt(index)
+                    corScope.launch {
+                        repo.delete(toFilmEntity(films[index]))
+                    }
                     visibleAlertDialog = false
                 }) {
                     Text(text = ctx.getString(R.string.button_delete))
