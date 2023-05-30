@@ -22,6 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.prmprojekt.data.FilmDatabase
+import com.example.prmprojekt.data.FilmRepository
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -83,6 +86,9 @@ fun ListScreen(navController: NavController, films: MutableList<Film>) {
 @Composable
 fun FilmList(navController: NavController, films: MutableList<Film>, isSortedSelected: Boolean) {
     val ctx = LocalContext.current
+    val dao = FilmDatabase.getintance(ctx).filmDAO
+    val repo = FilmRepository(dao)
+    var corScope = rememberCoroutineScope()
     var visibleAlertDialog by remember {
         mutableStateOf(false)
     }
@@ -155,9 +161,10 @@ fun FilmList(navController: NavController, films: MutableList<Film>, isSortedSel
             title = { Text(text = ctx.getString(R.string.delete_confirmation)) },
             confirmButton = {
                 Button(onClick = {
-
                     val index = filmSelected
-                    films.removeAt(index)
+                    corScope.launch {
+                        repo.delete(toFilmEntity(films[index]))
+                    }
                     visibleAlertDialog = false
                 }) {
                     Text(text = ctx.getString(R.string.button_delete))
