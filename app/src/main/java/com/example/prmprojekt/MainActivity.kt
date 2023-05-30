@@ -110,7 +110,6 @@ fun NavAppHost(navController: NavHostController) {
                     intention = Intention.DETAILS,
                     onAccept = {
                         navController.navigate(NavDestination.Edit.createRoute(it.id))
-                        /* todo przeniesienie to apletu edycji */
                     },
                     film = films[films.getFilmById(it)]
                 )

@@ -141,8 +141,3 @@ fun EditFilmFormScreen(
     }
 
 }
-
-@Composable
-fun AcceptCancelButtons() {
-
-}
