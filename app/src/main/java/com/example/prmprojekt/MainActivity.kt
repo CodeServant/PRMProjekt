@@ -5,8 +5,6 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -18,12 +16,10 @@ import com.example.prmprojekt.data.FilmDatabase
 import com.example.prmprojekt.data.FilmEntity
 import com.example.prmprojekt.data.FilmRepository
 import com.example.prmprojekt.ui.theme.PRMProjektTheme
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import java.math.BigDecimal
 import kotlin.streams.toList
 
-// todo: przetestowanie jeszcze edytowanie
+// todo: edytowanie nie zmienia od razu danych w widoku details
 // todo: sprawdzanie danych które podaje/zmienia użytkownik
 // todo: sprawdzenie czy link żeczywiście prowadzą do obrazów, albo ustawienie jakiegoś domyślengo (można ustawić placeholder w AsyncImage)
 sealed class NavDestination(val route: String) {
