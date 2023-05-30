@@ -54,12 +54,17 @@ internal fun List<Film>.getFilmById(id: Int): Int {
 @Composable
 fun NavAppHost(navController: NavHostController) {
     val ctx = LocalContext.current
-    var films = remember {
-        mutableStateListOf<Film>(
-            *dummyfilmArray()
-        )
 
-    }
+    val databse = FilmDatabase.getintance(ctx)
+    val dao = databse.filmDAO;
+    val repo = FilmRepository(dao)
+
+
+    var filmsEntity =
+        repo.films.collectAsStateWithLifecycle(initialValue = mutableListOf<FilmEntity>())
+    var films = entityToFilm(filmsEntity.value)
+
+    var corScope = rememberCoroutineScope()
     NavHost(navController = navController, startDestination = NavDestination.List.route) {
         composable(NavDestination.List.route) { ListScreen(navController = navController, films) }
         composable(NavDestination.DetailsFilm.route) { navBackstackEntry ->
