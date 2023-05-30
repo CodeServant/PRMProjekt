@@ -7,17 +7,25 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.prmprojekt.data.FilmDatabase
+import com.example.prmprojekt.data.FilmEntity
+import com.example.prmprojekt.data.FilmRepository
 import com.example.prmprojekt.ui.theme.PRMProjektTheme
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import java.math.BigDecimal
 import kotlin.streams.toList
 
-// todo: dodawanie do bazy danych
+// todo: przetestowanie jeszcze edytowanie
 // todo: sprawdzanie danych które podaje/zmienia użytkownik
-// todo: sprawdzenie czy link żeczywiście prowadzą do obrazów, albo ustawienie jakiegoś domyślengo
+// todo: sprawdzenie czy link żeczywiście prowadzą do obrazów, albo ustawienie jakiegoś domyślengo (można ustawić placeholder w AsyncImage)
 sealed class NavDestination(val route: String) {
     object List : NavDestination("list")
     object Add : NavDestination("add")
@@ -49,6 +57,33 @@ internal fun List<Film>.getFilmById(id: Int): Int {
     for (f in 0 until this.size)
         if (this[f].id == id) return f
     return -1
+}
+
+internal fun entityToFilm(entities: List<FilmEntity>): MutableList<Film> {
+    val filmList: MutableList<Film> = mutableListOf()
+    entities.forEach {
+        filmList.add(entityToFilm(it))
+    }
+    return filmList
+}
+
+internal fun entityToFilm(entity: FilmEntity): Film {
+    return Film(
+        nazwa = entity.nazwa,
+        id = entity.id!!,
+        url = entity.url,
+        rating = entity.rating
+    )
+
+}
+
+internal fun toFilmEntity(film: Film): FilmEntity {
+    return FilmEntity(
+        nazwa = film.nazwa,
+        id = film.id,
+        url = film.url,
+        rating = film.rating
+    )
 }
 
 @Composable
@@ -88,7 +123,9 @@ fun NavAppHost(navController: NavHostController) {
 
 
             EditFilmFormScreen(navController, Intention.ADD, {
-                films.add(it)
+                corScope.launch {
+                    repo.insert(toFilmEntity(it))
+                }
                 navController.popBackStack()
             }, Film(id = maxId + 1))
         }
@@ -99,8 +136,10 @@ fun NavAppHost(navController: NavHostController) {
                     navController = navController,
                     intention = Intention.EDIT,
                     onAccept = { film ->
-                        val index = films.getFilmById(it)
-                        films[index] = film
+
+                        corScope.launch {
+                            repo.update(toFilmEntity(film))
+                        }
                         navController.popBackStack()
                     },
                     film = films[films.getFilmById(it)]
