@@ -1,10 +1,12 @@
 package com.example.prmprojekt
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -16,10 +18,10 @@ import com.example.prmprojekt.data.FilmDatabase
 import com.example.prmprojekt.data.FilmEntity
 import com.example.prmprojekt.data.FilmRepository
 import com.example.prmprojekt.ui.theme.PRMProjektTheme
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlin.streams.toList
 
-// todo: edytowanie nie zmienia od razu danych w widoku details
 // todo: sprawdzanie danych które podaje/zmienia użytkownik
 // todo: sprawdzenie czy link żeczywiście prowadzą do obrazów, albo ustawienie jakiegoś domyślengo (można ustawić placeholder w AsyncImage)
 sealed class NavDestination(val route: String) {
@@ -82,6 +84,7 @@ internal fun toFilmEntity(film: Film): FilmEntity {
     )
 }
 
+@SuppressLint("FlowOperatorInvokedInComposition")
 @Composable
 fun NavAppHost(navController: NavHostController) {
     val ctx = LocalContext.current
@@ -91,9 +94,7 @@ fun NavAppHost(navController: NavHostController) {
     val repo = FilmRepository(dao)
 
 
-    var filmsEntity =
-        repo.films.collectAsStateWithLifecycle(initialValue = mutableListOf<FilmEntity>())
-    var films = entityToFilm(filmsEntity.value)
+    val films by repo.films.map { entityToFilm(it) }.collectAsStateWithLifecycle(initialValue = mutableListOf<Film>())
 
     var corScope = rememberCoroutineScope()
     NavHost(navController = navController, startDestination = NavDestination.List.route) {
