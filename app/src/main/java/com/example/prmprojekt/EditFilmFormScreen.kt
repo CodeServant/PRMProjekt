@@ -61,7 +61,9 @@ fun EditFilmFormScreen(
 
             TextField(
                 value = rating, onValueChange = {
-                    rating = it
+
+                    if (isRating(it.text.toBigDecimalOrNull()) || it.text.isBlank())
+                        rating = it
                 },
                 label = { Text(text = ctx.getString(R.string.text_input_rating)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
