@@ -41,7 +41,10 @@ fun EditFilmFormScreen(
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         var title by remember { mutableStateOf(TextFieldValue(film.nazwa)) }
-        var rating by remember { mutableStateOf(TextFieldValue(film.rating.toString())) }
+        var rating by remember {
+            val rat = if (film.rating == null) "" else film.rating.toString()
+            mutableStateOf(TextFieldValue(rat))
+        }
         var pictureLink by remember { mutableStateOf(TextFieldValue(film.url)) }
         Column {
 
