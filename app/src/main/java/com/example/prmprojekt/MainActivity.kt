@@ -111,7 +111,7 @@ fun NavAppHost(navController: NavHostController) {
                     film = films[films.getFilmById(it)]
                 )
 
-                DetailFilm(navController = navController, filmId = filmId!!.toInt())
+                //DetailFilm(navController = navController, filmId = filmId!!.toInt())
             }
         }
         composable(NavDestination.Add.route) {
