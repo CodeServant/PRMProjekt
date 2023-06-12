@@ -26,9 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.prmprojekt.data.FilmDatabase
-import com.example.prmprojekt.data.FilmRepository
-import kotlinx.coroutines.launch
 
 
 @Composable
