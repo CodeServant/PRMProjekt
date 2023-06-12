@@ -22,7 +22,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlin.streams.toList
 
-// todo: usuwanie nie usuwa z oczu użytkowanika od razu
 // todo: sprawdzenie czy link żeczywiście prowadzą do obrazów, albo ustawienie jakiegoś domyślengo (można ustawić placeholder w AsyncImage)
 sealed class NavDestination(val route: String) {
     object List : NavDestination("list")
