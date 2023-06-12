@@ -10,14 +10,17 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -136,7 +139,9 @@ fun FilmList(navController: NavController, films: MutableList<Film>, isSortedSel
                         model = film.url,
                         contentDescription = "poster",
                         contentScale = ContentScale.Crop,
-                        modifier = Modifier.aspectRatio(0.70f, true)
+                        modifier = Modifier.aspectRatio(0.70f, true),
+                        placeholder = rememberVectorPainter(Icons.Default.Refresh),
+                        error = painterResource(R.drawable.ic_android_black_24dp)
                     )
 
                     Text(
