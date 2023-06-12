@@ -103,7 +103,7 @@ fun FilmList(
         mutableStateOf(false)
     }
     var filmSelected by remember {
-        mutableStateOf(0)
+        mutableStateOf<Film?>(null)
     }
     LazyColumn(
         modifier = Modifier
@@ -124,7 +124,7 @@ fun FilmList(
                             },
                             onLongPress = {
                                 visibleAlertDialog = true
-                                filmSelected = films.getFilmById(film.id)
+                                filmSelected = film
                             }
                         )
                     }
@@ -178,9 +178,8 @@ fun FilmList(
             title = { Text(text = ctx.getString(R.string.delete_confirmation)) },
             confirmButton = {
                 Button(onClick = {
-                    val index = filmSelected
 
-                    onDeleteFilm(films[index])
+                    onDeleteFilm(filmSelected!!)
 
                     visibleAlertDialog = false
                 }) {
