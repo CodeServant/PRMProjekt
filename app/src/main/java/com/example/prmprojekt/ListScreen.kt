@@ -77,7 +77,8 @@ fun ListScreen(navController: NavController, films: MutableList<Film>, onDeleteF
             FilmList(
                 films = films,
                 navController = navController,
-                isSortedSelected = isSortedSelected
+                isSortedSelected = isSortedSelected,
+                onDeleteFilm = onDeleteFilm
             )
             Text(
                 text = "${context.getString(R.string.quantity_sum)} ${films.size}",
