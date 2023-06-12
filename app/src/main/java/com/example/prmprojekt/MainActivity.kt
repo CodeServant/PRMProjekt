@@ -98,7 +98,11 @@ fun NavAppHost(navController: NavHostController) {
 
     var corScope = rememberCoroutineScope()
     NavHost(navController = navController, startDestination = NavDestination.List.route) {
-        composable(NavDestination.List.route) { ListScreen(navController = navController, films) }
+        composable(NavDestination.List.route) { ListScreen(navController = navController, films, {
+            corScope.launch {
+                repo.delete(toFilmEntity(it))
+            }
+        }) }
         composable(NavDestination.DetailsFilm.route) { navBackstackEntry ->
             val filmId = navBackstackEntry.arguments?.getString("filmId")
             FilmChoosen(filmId = filmId, navController = navController) {

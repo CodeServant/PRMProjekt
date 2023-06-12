@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun ListScreen(navController: NavController, films: MutableList<Film>) {
+fun ListScreen(navController: NavController, films: MutableList<Film>, onDeleteFilm: (Film) -> Unit) {
 
     val context = LocalContext.current
     var isSortedSelected by remember {
@@ -91,11 +91,8 @@ fun ListScreen(navController: NavController, films: MutableList<Film>) {
 
 
 @Composable
-fun FilmList(navController: NavController, films: MutableList<Film>, isSortedSelected: Boolean) {
+fun FilmList(navController: NavController, films: MutableList<Film>, isSortedSelected: Boolean, onDeleteFilm: (Film) -> Unit) {
     val ctx = LocalContext.current
-    val dao = FilmDatabase.getintance(ctx).filmDAO
-    val repo = FilmRepository(dao)
-    var corScope = rememberCoroutineScope()
     var visibleAlertDialog by remember {
         mutableStateOf(false)
     }
@@ -174,9 +171,9 @@ fun FilmList(navController: NavController, films: MutableList<Film>, isSortedSel
             confirmButton = {
                 Button(onClick = {
                     val index = filmSelected
-                    corScope.launch {
-                        repo.delete(toFilmEntity(films[index]))
-                    }
+
+                    onDeleteFilm(films[index])
+
                     visibleAlertDialog = false
                 }) {
                     Text(text = ctx.getString(R.string.button_delete))
