@@ -92,7 +92,12 @@ fun ListScreen(navController: NavController, films: MutableList<Film>, onDeleteF
 
 
 @Composable
-fun FilmList(navController: NavController, films: MutableList<Film>, isSortedSelected: Boolean, onDeleteFilm: (Film) -> Unit) {
+fun FilmList(
+    navController: NavController,
+    films: MutableList<Film>,
+    isSortedSelected: Boolean,
+    onDeleteFilm: (Film) -> Unit
+) {
     val ctx = LocalContext.current
     var visibleAlertDialog by remember {
         mutableStateOf(false)
