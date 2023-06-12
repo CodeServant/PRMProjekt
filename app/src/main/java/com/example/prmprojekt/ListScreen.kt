@@ -148,12 +148,14 @@ fun FilmList(
 
                     Text(
                         text = "${film.nazwa}",
-                        modifier = Modifier.align(Alignment.Top)
+                        modifier = Modifier
+                            .align(Alignment.Top)
                             .fillMaxWidth(0.85f),
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
-                    Row(modifier = Modifier.fillMaxHeight()
+                    Row(modifier = Modifier
+                        .fillMaxHeight()
                         .requiredWidth(30.dp)) {
                         Text(text = "${film.rating}", modifier = Modifier.align(Alignment.Bottom))
                         Icon(
