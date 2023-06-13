@@ -10,7 +10,7 @@ class FilmEntity(
     var nazwa: String = "",
     var rating: BigDecimal? = null,
     @PrimaryKey(autoGenerate = true)
-    var id: Int,
+    var id: Int?,
     var url: String = ""
 ) {
 }

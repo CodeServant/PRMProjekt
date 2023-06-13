@@ -1,6 +1,7 @@
 package com.example.prmprojekt
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,7 +30,7 @@ import coil.compose.AsyncImage
 
 
 @Composable
-fun ListScreen(navController: NavController, films: MutableList<Film>, onDeleteFilm: (Film) -> Unit) {
+fun ListScreen(navController: NavController, films: MutableList<Film>, onDeleteFilm: (Film) -> Unit, onDragStart: (() -> Unit)?=null) {
 
     val context = LocalContext.current
     var isSortedSelected by remember {
@@ -39,7 +40,15 @@ fun ListScreen(navController: NavController, films: MutableList<Film>, onDeleteF
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { navController.navigate(NavDestination.Add.route) },
-                backgroundColor = Color(0xff64cc30)
+                backgroundColor = Color(0xff64cc30),
+                modifier = Modifier.pointerInput(Unit){
+                    detectDragGestures(
+                        onDragStart = {
+                            onDragStart?.invoke()
+                        },
+                        onDrag = { change, offset -> }
+                    )
+                }
             )
             {
                 Icon(Icons.Default.Add, contentDescription = null)
@@ -111,7 +120,7 @@ fun FilmList(
             .padding(10.dp)
     ) {
         items(if (isSortedSelected) films.sortedBy { it.nazwa } else films,
-            key = { film -> film.id }) { film ->
+            key = { film -> film.id!! }) { film ->
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -119,7 +128,7 @@ fun FilmList(
                     .pointerInput(Unit) {
                         detectTapGestures(
                             onTap = {
-                                val route = NavDestination.DetailsFilm.createRoute(film.id)
+                                val route = NavDestination.DetailsFilm.createRoute(film.id!!)
                                 navController.navigate(route = route)
                             },
                             onLongPress = {

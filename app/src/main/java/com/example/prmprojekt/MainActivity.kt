@@ -66,7 +66,7 @@ internal fun entityToFilm(entities: List<FilmEntity>): MutableList<Film> {
 internal fun entityToFilm(entity: FilmEntity): Film {
     return Film(
         nazwa = entity.nazwa,
-        id = entity.id!!,
+        id = entity.id,
         url = entity.url,
         rating = entity.rating
     )
@@ -100,6 +100,12 @@ fun NavAppHost(navController: NavHostController) {
             corScope.launch {
                 repo.delete(toFilmEntity(it))
             }
+        }, {
+            corScope.launch {
+                dummyfilmArray().forEach {
+                    repo.insert(toFilmEntity(it))
+                }
+            }
         }) }
         composable(NavDestination.DetailsFilm.route) { navBackstackEntry ->
             val filmId = navBackstackEntry.arguments?.getString("filmId")
@@ -108,7 +114,7 @@ fun NavAppHost(navController: NavHostController) {
                     navController = navController,
                     intention = Intention.DETAILS,
                     onAccept = {
-                        navController.navigate(NavDestination.Edit.createRoute(it.id))
+                        navController.navigate(NavDestination.Edit.createRoute(it.id!!))
                     },
                     film = films[films.getFilmById(it)]
                 )
@@ -117,7 +123,7 @@ fun NavAppHost(navController: NavHostController) {
             }
         }
         composable(NavDestination.Add.route) {
-            val maxId = films.stream().map { it.id }.toList().maxOrNull() ?: 1
+            val maxId = films.stream().map { it.id!! }.toList().maxOrNull() ?: 1
 
 
             EditFilmFormScreen(navController, Intention.ADD, {
@@ -153,56 +159,48 @@ fun dummyfilmArray(): Array<Film> {
         Film(
             "Avatar",
             7.toBigDecimal(),
-            1,
-            url = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/6DfNtptjkIrevq4mDAB0XDXT0NO.jpg"
+            null,url = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/6DfNtptjkIrevq4mDAB0XDXT0NO.jpg"
         ),
         Film(
             "Titanic",
             9.toBigDecimal(),
-            6,
-            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg"
+            null,
+            url = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg"
         ),
         Film(
             "Harry Potter i Więzień Azkabanu",
             6.4.toBigDecimal(),
-            4,
-            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/sR7uC42HHb7qj1ndLBgBXii0quX.jpg"
+            null,url = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/sR7uC42HHb7qj1ndLBgBXii0quX.jpg"
         ),
         Film(
             "Marry Popins",
             8.5.toBigDecimal(),
-            5,
-            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/uTVGku4LibMGyKgQvjBtv3OYfAX.jpg"
+            null,url = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/uTVGku4LibMGyKgQvjBtv3OYfAX.jpg"
         ),
         Film(
             "John Wick 4",
             7.8.toBigDecimal(),
-            3,
-            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg"
+            null,url = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/vZloFAK7NmvMGKE7VkF5UHaz0I.jpg"
         ),
         Film(
             "Avatar: Istota Wody",
             7.toBigDecimal(),
-            2,
-            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/Ajs7ZyNjGMHIiATMygxMkOFeTko.jpg"
+            null,url = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/Ajs7ZyNjGMHIiATMygxMkOFeTko.jpg"
         ),
         Film(
             "Hellboy",
             4.5.toBigDecimal(),
-            7,
-            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/hjblR6bPZR0PvFwztHcEBCjYf7d.jpg"
+            null,url = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/hjblR6bPZR0PvFwztHcEBCjYf7d.jpg"
         ),
         Film(
             "Kapitan Ameryka",
             7.6.toBigDecimal(),
-            8,
-            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/lvHr3y3g63hrpXI3pSCLF62tRSZ.jpg"
+            null,url = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/lvHr3y3g63hrpXI3pSCLF62tRSZ.jpg"
         ),
         Film(
             "Avengers",
             7.9.toBigDecimal(),
-            9,
-            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg"
+            null,url = "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg"
         )
     )
     return list.toTypedArray()
