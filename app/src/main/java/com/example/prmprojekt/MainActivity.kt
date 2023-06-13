@@ -88,13 +88,13 @@ fun NavAppHost(navController: NavHostController) {
     val ctx = LocalContext.current
 
     val databse = FilmDatabase.getintance(ctx)
-    val dao = databse.filmDAO;
+    val dao = databse.filmDAO
     val repo = FilmRepository(dao)
 
 
     val films by repo.films.map { entityToFilm(it) }.collectAsStateWithLifecycle(initialValue = mutableListOf<Film>())
 
-    var corScope = rememberCoroutineScope()
+    val corScope = rememberCoroutineScope()
     NavHost(navController = navController, startDestination = NavDestination.List.route) {
         composable(NavDestination.List.route) { ListScreen(navController = navController, films, {
             corScope.launch {
