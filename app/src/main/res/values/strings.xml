@@ -14,4 +14,13 @@
     <string name="list_top_app_title">Lista filmów</string>
     <string name="button_share">udostępnij</string>
     <string name="sms_share_button">wyślij SMS\'em</string>
+    <string name="register_form_title">rejestrowanie</string>
+    <string name="login_form_title">zaloguj</string>
+    <string name="email_field">Email</string>
+    <string name="password_field">Hasło</string>
+    <string name="password_field_secound">Powtórz hasło</string>
+    <string name="button_register_accept">zarejestruj</string>
+    <string name="button_login_accept">zaloguj</string>
+    <string name="example_email">jan.kowalski@example.com</string>
+    <string name="passwords_not_equals">hasła się nie zgadzają</string>
 </resources>

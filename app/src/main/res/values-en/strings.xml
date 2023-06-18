@@ -15,4 +15,12 @@
     <string name="list_top_app_title">Film list</string>
     <string name="button_share">share</string>
     <string name="sms_share_button">sent with SMS</string>
+    <string name="register_form_title">register</string>
+    <string name="login_form_title">login</string>
+    <string name="login_field">Login</string>
+    <string name="password_field">Password</string>
+    <string name="password_field_secound">Repeat Password</string>
+    <string name="button_register_accept">register</string>
+    <string name="button_login_accept">log in</string>
+    <string name="example_email">john.doe@example.com</string>
 </resources>
