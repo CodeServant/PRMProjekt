@@ -32,6 +32,9 @@ sealed class NavDestination(val route: String) {
     object DetailsFilm : NavDestination("detailsfilm/{filmId}") {
         fun createRoute(filmId: Int) = "detailsfilm/$filmId"
     }
+
+    object RegisterlForm : NavDestination("resgister")
+    object LoginForm : NavDestination("login")
 }
 
 class MainActivity : ComponentActivity() {
@@ -152,6 +155,13 @@ fun NavAppHost(navController: NavHostController) {
                     film = films[films.getFilmById(it)]
                 )
             }
+        }
+        composable(NavDestination.RegisterlForm.route) {
+            CredentialForm(navController = navController, ctx.getString(R.string.register_form_title), registering = true, {s,a-> }/* todo change it to make sense*/)
+        }
+
+        composable(NavDestination.LoginForm.route) {
+            CredentialForm(navController = navController, ctx.getString(R.string.login_form_title), registering = false, {s,a->  /* todo change it to make sense*/})
         }
     }
 }
