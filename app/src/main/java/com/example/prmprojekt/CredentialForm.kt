@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,7 +31,9 @@ fun CredentialForm(
     title: String,
     registering: Boolean,
     onAccpted: (String, String) -> Unit,
-    loginViewModel: LoginViewModel
+    loginViewModel: LoginViewModel,
+    onChangeCredentialScreen: () -> Unit,
+    textToRedirect: String
 ) {
     val ctx = navController.context
     var email by remember {
@@ -59,6 +62,12 @@ fun CredentialForm(
             fontSize = 50.sp,
             modifier = Modifier.weight(1f)
         )
+        TextButton(onClick = {
+            onChangeCredentialScreen()
+        }) {
+            Text(text = textToRedirect)
+        }
+
         Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.SpaceAround) {
             InputField(
                 labelResId = R.string.email_field,

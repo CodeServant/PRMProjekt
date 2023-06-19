@@ -99,7 +99,7 @@ fun NavAppHost(navController: NavHostController) {
         .collectAsStateWithLifecycle(initialValue = mutableListOf<Film>())
 
     val corScope = rememberCoroutineScope()
-    NavHost(navController = navController, startDestination = NavDestination.RegisterlForm.route) {
+    NavHost(navController = navController, startDestination = NavDestination.LoginForm.route) {
         composable(NavDestination.List.route) {
             ListScreen(navController = navController, films, {
                 corScope.launch {
@@ -158,13 +158,41 @@ fun NavAppHost(navController: NavHostController) {
         }
         val logViewModel = LoginViewModel()
         composable(NavDestination.RegisterlForm.route) {
-            CredentialForm(navController = navController, ctx.getString(R.string.register_form_title), registering = true, {s,a-> }/* todo change it to make sense*/, logViewModel)
+            CredentialForm(
+                navController = navController,
+                ctx.getString(R.string.register_form_title),
+                registering = true,
+                { s, a -> }/* todo change it to make sense*/,
+                logViewModel,
+                {
+                    navController.navigate(NavDestination.LoginForm.route){
+                        popUpTo(NavDestination.RegisterlForm.route){
+                            inclusive=true
+                        }
+                    }
+                },
+                textToRedirect = ctx.getString(R.string.login_form_title)
+            )
         }
 
         composable(NavDestination.LoginForm.route) {
-            CredentialForm(navController = navController, ctx.getString(R.string.login_form_title), registering = false, {email,password->
-                logViewModel.signIn(email,password)
-            }, logViewModel)
+            CredentialForm(
+                navController = navController,
+                ctx.getString(R.string.login_form_title),
+                registering = false,
+                { email, password ->
+                    logViewModel.signIn(email, password)
+                },
+                logViewModel,
+                {
+                    navController.navigate(NavDestination.RegisterlForm.route){
+                        popUpTo(NavDestination.LoginForm.route){
+                            inclusive=true
+                        }
+                    }
+                },
+                textToRedirect = ctx.getString(R.string.register_form_title)
+            )
         }
     }
 }
