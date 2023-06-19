@@ -101,7 +101,7 @@ fun CredentialForm(
             if (registering) R.string.button_register_accept else R.string.button_login_accept
         Text(text = messageText)
         AcceptButton(navController = navController, acceptResMessage, {
-            if (password != password2 && registering) messageText = ctx.getString(R.string.passwords_not_equals)
+            if (registering && password != password2 ) messageText = ctx.getString(R.string.passwords_not_equals)
             else
             {
                 messageText=""
