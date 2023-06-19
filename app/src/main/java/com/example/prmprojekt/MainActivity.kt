@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.prmprojekt.data.FilmDatabase
 import com.example.prmprojekt.data.FilmEntity
 import com.example.prmprojekt.data.FilmRepository
+import com.example.prmprojekt.ui.theme.LoginViewModel
 import com.example.prmprojekt.ui.theme.PRMProjektTheme
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -156,12 +157,15 @@ fun NavAppHost(navController: NavHostController) {
                 )
             }
         }
+        val logViewModel = LoginViewModel()
         composable(NavDestination.RegisterlForm.route) {
-            CredentialForm(navController = navController, ctx.getString(R.string.register_form_title), registering = true, {s,a-> }/* todo change it to make sense*/)
+            CredentialForm(navController = navController, ctx.getString(R.string.register_form_title), registering = true, {s,a-> }/* todo change it to make sense*/, logViewModel)
         }
 
         composable(NavDestination.LoginForm.route) {
-            CredentialForm(navController = navController, ctx.getString(R.string.login_form_title), registering = false, {s,a->  /* todo change it to make sense*/})
+            CredentialForm(navController = navController, ctx.getString(R.string.login_form_title), registering = false, {email,password->
+                logViewModel.signIn(email,password)
+            }, logViewModel)
         }
     }
 }
