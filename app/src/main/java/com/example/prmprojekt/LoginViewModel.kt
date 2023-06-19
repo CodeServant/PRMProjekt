@@ -1,4 +1,4 @@
-package com.example.prmprojekt.ui.theme
+package com.example.prmprojekt
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

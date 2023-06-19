@@ -17,7 +17,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.prmprojekt.data.FilmDatabase
 import com.example.prmprojekt.data.FilmEntity
 import com.example.prmprojekt.data.FilmRepository
-import com.example.prmprojekt.ui.theme.LoginViewModel
 import com.example.prmprojekt.ui.theme.PRMProjektTheme
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
