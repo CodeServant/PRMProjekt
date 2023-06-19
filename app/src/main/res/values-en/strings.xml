@@ -17,6 +17,7 @@
     <string name="sms_share_button">sent with SMS</string>
     <string name="register_form_title">register</string>
     <string name="login_form_title">login</string>
+    <string name="passwords_not_equals">passwords not the same</string>
     <string name="login_field">Login</string>
     <string name="password_field">Password</string>
     <string name="password_field_secound">Repeat Password</string>
