@@ -30,7 +30,7 @@ fun CredentialForm(
     navController: NavController,
     title: String,
     registering: Boolean,
-    onAccpted: (String, String) -> Unit,
+    onAccepted: (String, String) -> Unit,
     loginViewModel: LoginViewModel,
     onChangeCredentialScreen: () -> Unit,
     textToRedirect: String
@@ -105,7 +105,7 @@ fun CredentialForm(
             else
             {
                 messageText=""
-                onAccpted(email, password)
+                onAccepted(email, password)
             }
         })
     }
