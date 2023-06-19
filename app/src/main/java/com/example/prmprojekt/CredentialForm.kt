@@ -23,9 +23,16 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.prmprojekt.ui.theme.LoginViewModel
 
 @Composable
-fun CredentialForm(navController: NavController, title: String, registering: Boolean, onAccpted: (String, String) -> Unit) {
+fun CredentialForm(
+    navController: NavController,
+    title: String,
+    registering: Boolean,
+    onAccpted: (String, String) -> Unit,
+    loginViewModel: LoginViewModel
+) {
     val ctx = navController.context
     var email by remember {
         mutableStateOf("")
