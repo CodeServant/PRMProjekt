@@ -33,7 +33,9 @@ fun CredentialForm(
     onAccepted: (String, String) -> Unit,
     loginViewModel: LoginViewModel,
     onChangeCredentialScreen: () -> Unit,
-    textToRedirect: String
+    textToRedirect: String,
+    messageText: String,
+    setMessage: (String) -> Unit
 ) {
     val ctx = navController.context
     var email by remember {
@@ -46,9 +48,7 @@ fun CredentialForm(
     var password2 by remember {
         mutableStateOf("")
     }
-    var messageText by remember {
-        mutableStateOf("")
-    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween,
@@ -101,10 +101,10 @@ fun CredentialForm(
             if (registering) R.string.button_register_accept else R.string.button_login_accept
         Text(text = messageText)
         AcceptButton(navController = navController, acceptResMessage, {
-            if (registering && password != password2 ) messageText = ctx.getString(R.string.passwords_not_equals)
+            if (registering && password != password2 ) setMessage(ctx.getString(R.string.passwords_not_equals))
             else
             {
-                messageText=""
+                setMessage("")
                 onAccepted(email, password)
             }
         })

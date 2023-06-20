@@ -7,7 +7,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -93,7 +96,9 @@ fun NavAppHost(navController: NavHostController) {
     val databse = FilmDatabase.getintance(ctx)
     val dao = databse.filmDAO
     val repo = FilmRepository(dao)
-
+    var signFeedback by remember {
+        mutableStateOf("")
+    }
 
     val films by repo.films.map { entityToFilm(it) }
         .collectAsStateWithLifecycle(initialValue = mutableListOf<Film>())
@@ -165,13 +170,15 @@ fun NavAppHost(navController: NavHostController) {
                 { s, a -> }/* todo change it to make sense*/,
                 logViewModel,
                 {
-                    navController.navigate(NavDestination.LoginForm.route){
-                        popUpTo(NavDestination.RegisterlForm.route){
-                            inclusive=true
+                    navController.navigate(NavDestination.LoginForm.route) {
+                        popUpTo(NavDestination.RegisterlForm.route) {
+                            inclusive = true
                         }
                     }
                 },
-                textToRedirect = ctx.getString(R.string.login_form_title)
+                textToRedirect = ctx.getString(R.string.login_form_title),
+                messageText = signFeedback,
+                setMessage = { signFeedback = it }
             )
         }
 
@@ -181,17 +188,19 @@ fun NavAppHost(navController: NavHostController) {
                 ctx.getString(R.string.login_form_title),
                 registering = false,
                 { email, password ->
-                    logViewModel.signIn(email, password)
+                    logViewModel.signIn(email, password, setMessage = { signFeedback = it })
                 },
                 logViewModel,
                 {
-                    navController.navigate(NavDestination.RegisterlForm.route){
-                        popUpTo(NavDestination.LoginForm.route){
-                            inclusive=true
+                    navController.navigate(NavDestination.RegisterlForm.route) {
+                        popUpTo(NavDestination.LoginForm.route) {
+                            inclusive = true
                         }
                     }
                 },
-                textToRedirect = ctx.getString(R.string.register_form_title)
+                textToRedirect = ctx.getString(R.string.register_form_title),
+                messageText = signFeedback,
+                setMessage = { signFeedback = it }
             )
         }
     }
