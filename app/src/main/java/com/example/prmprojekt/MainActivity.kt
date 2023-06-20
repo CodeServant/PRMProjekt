@@ -167,7 +167,7 @@ fun NavAppHost(navController: NavHostController) {
                 navController = navController,
                 ctx.getString(R.string.register_form_title),
                 registering = true,
-                { s, a -> }/* todo change it to make sense*/,
+                onAccepted = { s, a -> }/* todo change it to make sense*/,
                 logViewModel,
                 {
                     navController.navigate(NavDestination.LoginForm.route) {
@@ -187,8 +187,16 @@ fun NavAppHost(navController: NavHostController) {
                 navController = navController,
                 ctx.getString(R.string.login_form_title),
                 registering = false,
-                { email, password ->
-                    logViewModel.signIn(email, password, setMessage = { signFeedback = it })
+                onAccepted = { email, password ->
+                    logViewModel.signIn(email, password, setMessage = { signFeedback = it }){
+                        navController.navigate(NavDestination.List.route){
+                            popUpTo(NavDestination.LoginForm.route){
+                                inclusive = true
+                            }
+                        }
+
+
+                    }
                 },
                 logViewModel,
                 {

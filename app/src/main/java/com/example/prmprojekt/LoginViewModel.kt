@@ -15,7 +15,7 @@ class LoginViewModel : ViewModel() {
 
     private val auth: FirebaseAuth = Firebase.auth
     /*val loadingState = MutableStateFlow()*/
-    fun signIn(email: String, password: String, setMessage: (String) -> Unit) =
+    fun signIn(email: String, password: String, setMessage: (String) -> Unit, onSuccess: ()->Unit) =
 
         viewModelScope.launch {
             try {
@@ -23,7 +23,7 @@ class LoginViewModel : ViewModel() {
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             Log.d("FB", "signed to account ${task.result.toString()}")
-                            //todo take to home
+                            onSuccess()
                         }
                         else
                             try{
