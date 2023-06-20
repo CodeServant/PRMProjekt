@@ -167,7 +167,15 @@ fun NavAppHost(navController: NavHostController) {
                 navController = navController,
                 ctx.getString(R.string.register_form_title),
                 registering = true,
-                onAccepted = { s, a -> }/* todo implement creating user with RegisterForm*/,
+                onAccepted = { email, password ->
+                    logViewModel.signUp(
+                        email,
+                        password,
+                        setMessage = { signFeedback = it },
+                        onSuccess = {
+                            signFeedback = "You are now a user!" //todo set string values
+                        })
+                },
                 logViewModel,
                 {
                     navController.navigate(NavDestination.LoginForm.route) {

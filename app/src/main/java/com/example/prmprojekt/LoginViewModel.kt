@@ -1,15 +1,12 @@
 package com.example.prmprojekt
 
 import android.util.Log
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 class LoginViewModel : ViewModel() {
 
@@ -36,5 +33,23 @@ class LoginViewModel : ViewModel() {
             } catch (e: Exception) {
                 setMessage(e.message!!)
             }
+        }
+    fun signUp(email: String, password: String, setMessage: (String) -> Unit, onSuccess: ()->Unit) =
+        viewModelScope.launch {
+
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener{task ->
+                    if (task.isSuccessful) {
+                        Log.d("FB", "signed in an account ${task.result.toString()}")
+                        onSuccess()
+                    }else{
+                        try {
+                            throw task.exception!!
+                        }catch (e: Exception){
+                            setMessage(e.message!!)
+                        }
+                    }
+
+                }
         }
 }
