@@ -1,15 +1,10 @@
 package com.example.prmprojekt.data
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import java.math.BigDecimal
 
-@Entity
-class FilmEntity(
+
+data class FilmEntity(
     var nazwa: String = "",
-    var rating: BigDecimal? = null,
-    @PrimaryKey(autoGenerate = true)
-    var id: Int?,
+    var rating: String? = null,
+    var id: String? = null,
     var url: String = ""
-) {
-}
+)

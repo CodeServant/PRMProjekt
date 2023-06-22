@@ -17,23 +17,23 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.prmprojekt.data.FilmDatabase
 import com.example.prmprojekt.data.FilmEntity
 import com.example.prmprojekt.data.FilmRepository
 import com.example.prmprojekt.ui.theme.PRMProjektTheme
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 import kotlin.streams.toList
-
+//todo wyświetlanie w kolejce w kolejności dodawania
 sealed class NavDestination(val route: String) {
     object List : NavDestination("list")
     object Add : NavDestination("add")
     object Edit : NavDestination("edit/{filmId}") {
-        fun createRoute(filmId: Int) = "edit/$filmId"
+        fun createRoute(filmId: String) = "edit/$filmId"
     }
 
     object DetailsFilm : NavDestination("detailsfilm/{filmId}") {
-        fun createRoute(filmId: Int) = "detailsfilm/$filmId"
+        fun createRoute(filmId: String) = "detailsfilm/$filmId"
     }
 
     object RegisterlForm : NavDestination("resgister")
@@ -55,7 +55,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-internal fun List<Film>.getFilmById(id: Int): Int {
+internal fun List<Film>.getFilmById(id: String): Int {
     for (f in 0 until this.size)
         if (this[f].id == id) return f
     return -1
@@ -74,7 +74,7 @@ internal fun entityToFilm(entity: FilmEntity): Film {
         nazwa = entity.nazwa,
         id = entity.id,
         url = entity.url,
-        rating = entity.rating
+        rating = BigDecimal(entity.rating)
     )
 
 }
@@ -84,7 +84,7 @@ internal fun toFilmEntity(film: Film): FilmEntity {
         nazwa = film.nazwa,
         id = film.id,
         url = film.url,
-        rating = film.rating
+        rating = film.rating.toString()
     )
 }
 
@@ -93,9 +93,7 @@ internal fun toFilmEntity(film: Film): FilmEntity {
 fun NavAppHost(navController: NavHostController) {
     val ctx = LocalContext.current
 
-    val databse = FilmDatabase.getintance(ctx)
-    val dao = databse.filmDAO
-    val repo = FilmRepository(dao)
+    val repo = FilmRepository()
     var signFeedback by remember {
         mutableStateOf("")
     }
@@ -110,7 +108,7 @@ fun NavAppHost(navController: NavHostController) {
                 corScope.launch {
                     repo.delete(toFilmEntity(it))
                 }
-            }, {
+            }, onDragStart = {
                 corScope.launch {
                     dummyfilmArray().forEach {
                         repo.insert(toFilmEntity(it))
@@ -142,7 +140,7 @@ fun NavAppHost(navController: NavHostController) {
                     repo.insert(toFilmEntity(it))
                 }
                 navController.popBackStack()
-            }, Film(id = maxId + 1))
+            }, Film(id = null))
         }
         composable(NavDestination.Edit.route) {
             val filmId = it.arguments?.getString("filmId")
@@ -196,9 +194,9 @@ fun NavAppHost(navController: NavHostController) {
                 ctx.getString(R.string.login_form_title),
                 registering = false,
                 onAccepted = { email, password ->
-                    logViewModel.signIn(email, password, setMessage = { signFeedback = it }){
-                        navController.navigate(NavDestination.List.route){
-                            popUpTo(NavDestination.LoginForm.route){
+                    logViewModel.signIn(email, password, setMessage = { signFeedback = it }) {
+                        navController.navigate(NavDestination.List.route) {
+                            popUpTo(NavDestination.LoginForm.route) {
                                 inclusive = true
                             }
                         }
@@ -291,7 +289,7 @@ fun dummyfilmArray(): Array<Film> {
 fun FilmChoosen(
     filmId: String?,
     navController: NavHostController,
-    content: @Composable (Int) -> Unit
+    content: @Composable (String) -> Unit
 ) {
     val ctx = navController.context
     if (filmId == null)
@@ -302,6 +300,6 @@ fun FilmChoosen(
         )
             .show()
     else {
-        content(filmId.toInt())
+        content(filmId.toString())
     }
 }
