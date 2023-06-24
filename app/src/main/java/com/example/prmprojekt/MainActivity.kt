@@ -111,7 +111,7 @@ fun NavAppHost(navController: NavHostController) {
         .collectAsStateWithLifecycle(initialValue = mutableListOf<Film>())
 
     val corScope = rememberCoroutineScope()
-    NavHost(navController = navController, startDestination = NavDestination.List.route) {
+    NavHost(navController = navController, startDestination = NavDestination.LoginForm.route) {
         composable(NavDestination.List.route) {
             ListScreen(navController = navController, films, {
                 corScope.launch {
