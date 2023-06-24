@@ -24,4 +24,8 @@
     <string name="example_email">jan.kowalski@example.com</string>
     <string name="passwords_not_equals">hasła się nie zgadzają</string>
     <string name="login_field">Login</string>
+    <string name="channel_name">przypomnienie o aktywaności</string>
+    <string name="channel_description">przypomina o aktywności urzytkownikowi w aplikacji</string>
+    <string name="notify_add_movie">dodaj film</string>
+    <string name="notify_add_movie_text">Hejka dawno nie dodawałęś nowego filmu.</string>
 </resources>

@@ -17,12 +17,15 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.prmprojekt.data.FilmEntity
 import com.example.prmprojekt.data.FilmRepository
 import com.example.prmprojekt.ui.theme.PRMProjektTheme
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import java.time.Duration
 import kotlin.streams.toList
 //todo wyświetlanie w kolejce w kolejności dodawania
 sealed class NavDestination(val route: String) {
@@ -45,6 +48,12 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val workerRequest = PeriodicWorkRequestBuilder<MyWorker>(Duration.ofMinutes(15))
+            .build()
+        Notificatons.createNotificationChannel(this)
+        WorkManager.getInstance(this).enqueue(workerRequest)
+
         setContent {
             PRMProjektTheme {
                 val navController = rememberNavController()
@@ -55,13 +64,13 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-internal fun List<Film>.getFilmById(id: String): Int {
+private fun List<Film>.getFilmById(id: String): Int {
     for (f in 0 until this.size)
         if (this[f].id == id) return f
     return -1
 }
 
-internal fun entityToFilm(entities: List<FilmEntity>): MutableList<Film> {
+private fun entityToFilm(entities: List<FilmEntity>): MutableList<Film> {
     val filmList: MutableList<Film> = mutableListOf()
     entities.forEach {
         filmList.add(entityToFilm(it))
@@ -69,7 +78,7 @@ internal fun entityToFilm(entities: List<FilmEntity>): MutableList<Film> {
     return filmList
 }
 
-internal fun entityToFilm(entity: FilmEntity): Film {
+private fun entityToFilm(entity: FilmEntity): Film {
     return Film(
         nazwa = entity.nazwa,
         id = entity.id,
@@ -79,7 +88,7 @@ internal fun entityToFilm(entity: FilmEntity): Film {
 
 }
 
-internal fun toFilmEntity(film: Film): FilmEntity {
+private fun toFilmEntity(film: Film): FilmEntity {
     return FilmEntity(
         nazwa = film.nazwa,
         id = film.id,
@@ -102,7 +111,7 @@ fun NavAppHost(navController: NavHostController) {
         .collectAsStateWithLifecycle(initialValue = mutableListOf<Film>())
 
     val corScope = rememberCoroutineScope()
-    NavHost(navController = navController, startDestination = NavDestination.LoginForm.route) {
+    NavHost(navController = navController, startDestination = NavDestination.List.route) {
         composable(NavDestination.List.route) {
             ListScreen(navController = navController, films, {
                 corScope.launch {
@@ -133,7 +142,6 @@ fun NavAppHost(navController: NavHostController) {
         }
         composable(NavDestination.Add.route) {
             val maxId = films.stream().map { it.id!! }.toList().maxOrNull() ?: 1
-
 
             EditFilmFormScreen(navController, Intention.ADD, {
                 corScope.launch {

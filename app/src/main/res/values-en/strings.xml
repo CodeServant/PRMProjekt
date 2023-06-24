@@ -24,4 +24,8 @@
     <string name="button_register_accept">register</string>
     <string name="button_login_accept">log in</string>
     <string name="example_email">john.doe@example.com</string>
+    <string name="channel_name">activity reminder</string>
+    <string name="channel_description">remind of activity in this app to the user</string>
+    <string name="notify_add_movie">add movie</string>
+    <string name="notify_add_movie_text">Hey you\'ve not added movie in a long time.</string>
 </resources>
